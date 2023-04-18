@@ -5,6 +5,10 @@ using Ocelot.Middleware;
 try
 {
     var builder = WebApplication.CreateBuilder(args);
+
+    // Add the following line
+    builder.Logging.SetMinimumLevel(LogLevel.Trace);
+
     builder.Host.ConfigureLogging((hostingContext, logging) =>
     {
         logging.ClearProviders();
@@ -50,10 +54,19 @@ try
         var httpClient = new HttpClient();
         var url = $"http://{documentName}:80/swagger/{documentName}/swagger.json";
         Console.WriteLine($"Fetching Swagger JSON from: {url}");
-        var responseMessage = await httpClient.GetAsync(url);
-        var content = await responseMessage.Content.ReadAsStringAsync();
-        context.Response.ContentType = "application/json";
-        await context.Response.WriteAsync(content);
+        try
+        {
+            var responseMessage = await httpClient.GetAsync(url);
+            Console.WriteLine($"Response status code: {responseMessage.StatusCode}");
+            var content = await responseMessage.Content.ReadAsStringAsync();
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync(content);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception while fetching Swagger JSON: {ex}");
+            throw;
+        }
     });
 
     app.UseSwaggerUI(c =>
