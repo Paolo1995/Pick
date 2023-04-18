@@ -5,26 +5,24 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "auth",
-          "Port": 7171
+          "Host": "authenticationservice",
+          "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/api/auth/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
-      "Key": "auth"
+      "UpstreamPathTemplate": "/auth/api/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
     },
     {
       "DownstreamPathTemplate": "/api/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "fleetsubscription",
-          "Port": 7265
+          "Host": "fleetsubscriptionservice",
+          "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/api/fleetsubscription/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
-      "Key": "fleetsubscription"
+      "UpstreamPathTemplate": "/fleetsubscription/api/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
     }
   ],
   "SwaggerEndPoints": [
@@ -32,9 +30,9 @@
       "Key": "auth",
       "Config": [
         {
-          "Name": "Authentication Service",
+          "Name": "Auth API",
           "Version": "v1",
-          "Url": "http://auth/swagger/v1/swagger.json"
+          "Url": "http://authenticationservice:80/swagger/v1/swagger.json"
         }
       ]
     },
@@ -42,14 +40,14 @@
       "Key": "fleetsubscription",
       "Config": [
         {
-          "Name": "Fleet Subscription Service",
+          "Name": "Fleet Subscription API",
           "Version": "v1",
-          "Url": "http://fleetsubscription/swagger/v1/swagger.json"
+          "Url": "http://fleetsubscriptionservice:80/swagger/v1/swagger.json"
         }
       ]
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:7025"
+    "BaseUrl": "http://localhost:7000"
   }
 }
