@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "FleetSubscriptionService.Persistance": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:65184;http://localhost:65188"
+    }
+  }
+}

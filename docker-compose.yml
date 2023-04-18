@@ -1,0 +1,38 @@
+version: "3.9"
+services:
+  apigateway:
+    image: pick-apigateway
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
+    ports:
+      - "7025:80"
+    networks:
+      - backend
+
+  auth:
+    image: pick-auth
+    build:
+      context: .
+      dockerfile: AuthenticationService/Dockerfile
+    ports:
+      - "7171:80"
+    networks:
+      backend:
+        aliases:
+          - auth
+
+  fleetsubscription:
+    image: pick-fleetsubscription
+    build:
+      context: .
+      dockerfile: FleetSubscriptionService.WebAPI/Dockerfile
+    ports:
+      - "7265:80"
+    networks:
+      backend:
+        aliases:
+          - fleetsubscription
+
+networks:
+  backend:
