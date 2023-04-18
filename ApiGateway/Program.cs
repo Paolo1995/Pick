@@ -3,7 +3,7 @@ using Microsoft.OpenApi.Models;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Swashbuckle.AspNetCore.SwaggerGen;
-
+using System.Reflection;
 
 try
 {
@@ -35,6 +35,9 @@ try
     builder.Services.AddSwaggerGen(c =>
     {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiGateway", Version = "v1" });
+        var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+        c.IncludeXmlComments(xmlPath);
         c.OperationFilter<SwaggerDefaultValues>();
         c.CustomSchemaIds(type => type.FullName);
     });
@@ -42,7 +45,6 @@ try
     var app = builder.Build();
 
     app.UseRouting();
-    app.UseSwagger();
 
     app.UseEndpoints(endpoints =>
     {
@@ -72,6 +74,7 @@ try
         }
     });
 
+    app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/auth/swagger.json", "Auth API");
