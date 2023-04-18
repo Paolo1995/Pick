@@ -5,10 +5,12 @@ using Ocelot.Middleware;
 try
 {
     var builder = WebApplication.CreateBuilder(args);
-    builder.Logging.ClearProviders();
-    builder.Logging.AddConsole();
-    builder.Logging.SetMinimumLevel(LogLevel.Debug);
-    builder.Logging.AddFilter("Ocelot.*", LogLevel.Debug);
+    builder.Host.ConfigureLogging((hostingContext, logging) =>
+    {
+        logging.ClearProviders();
+        logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+        logging.AddConsole();
+    });
 
     // Add services to the container.
     builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
