@@ -6,15 +6,13 @@ try
 {
     var builder = WebApplication.CreateBuilder(args);
 
-    // Add the following line
     builder.Logging.SetMinimumLevel(LogLevel.Trace);
 
-    builder.Host.ConfigureLogging((hostingContext, logging) =>
-    {
-        logging.ClearProviders();
-        logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-        logging.AddConsole();
-    });
+    builder.Logging.ClearProviders();
+    builder.Logging.AddConsole();
+    builder.Logging.AddFilter("Ocelot", LogLevel.Debug);
+    builder.Logging.AddFilter("Microsoft", LogLevel.Trace);
+    builder.Logging.AddFilter("System", LogLevel.Trace);
 
     // Add services to the container.
     builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
