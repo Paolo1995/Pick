@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: ApiGateway/Dockerfile
     ports:
-      - "7025:80"
+      - "7000:80"
     networks:
       - backend
 
