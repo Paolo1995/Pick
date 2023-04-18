@@ -1,6 +1,9 @@
+using ApiGateway;
 using Microsoft.OpenApi.Models;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using Swashbuckle.AspNetCore.SwaggerGen;
+
 
 try
 {
@@ -31,7 +34,9 @@ try
 
     builder.Services.AddSwaggerGen(c =>
     {
-        c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Gateway", Version = "v1" });
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiGateway", Version = "v1" });
+        c.OperationFilter<SwaggerDefaultValues>();
+        c.CustomSchemaIds(type => type.FullName);
     });
 
     var app = builder.Build();
